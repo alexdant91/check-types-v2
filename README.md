@@ -1,6 +1,6 @@
 # check-types-v2
 
-New version of check types library
+New version of check types library. Check on [npm](https://www.npmjs.com/package/check-types-v2).
 
 ## Install
 
