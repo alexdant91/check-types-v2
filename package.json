@@ -1,0 +1,21 @@
+{
+  "name": "check-types-v2",
+  "version": "1.0.0",
+  "description": "New version of check types library",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexdant91/check-types-v2.git"
+  },
+  "scripts": {
+    "build": "npx babel src --out-dir lib"
+  },
+  "author": "Alessandro D'Antoni",
+  "license": "MIT License",
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.10.4"
+  }
+}
