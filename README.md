@@ -83,3 +83,17 @@ console.log(value3);
  */
 
 ```
+
+## To do
+
+This project is under active maintenance. New features soon.
+
+### To fix and improvements
+
+[ ] – Fix errors handler, it takes the same error multiple times
+[ ] – Integrate `Float` and `Int` validation type
+
+### Generic
+
+[ ] – Write complete documentation
+[ ] – Write example for each function
