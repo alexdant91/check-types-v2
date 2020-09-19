@@ -8,11 +8,11 @@ New version of check types library. Check on [npm](https://www.npmjs.com/package
 
 Fixed a lot of errors from the first release.
 
-# Supporting the project
+## Supporting the project
 
 Maintaining a project takes time. To help allocate time, you can Buy Me a Coffee 😉
 
-[<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >](https://www.buymeacoffee.com/alexdant91)
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/alexdant91)
 
 ## Install
 
