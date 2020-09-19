@@ -1,6 +1,14 @@
 # check-types-v2
 
-New version of check types library. Check on [npm](https://www.npmjs.com/package/check-types-v2).
+New version of check types library. Check on [npm](https://www.npmjs.com/package/check-types-v2) and [github](https://github.com/alexdant91/check-types-v2#readme).
+
+# Supporting the project
+
+## 🎉 Version 2.0.x is live 🎉
+
+Maintaining a project takes time. To help allocate time, you can Buy Me a Coffee 😉
+
+[<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >](https://www.buymeacoffee.com/alexdant9)
 
 ## Install
 
