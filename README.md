@@ -12,7 +12,7 @@ Fixed a lot of errors from the first release.
 
 Maintaining a project takes time. To help allocate time, you can Buy Me a Coffee 😉
 
-[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/alexdant91)
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/alexdant91){:target="_blank"}
 
 ## Install
 
