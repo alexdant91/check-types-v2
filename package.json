@@ -1,6 +1,6 @@
 {
   "name": "check-types-v2",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "New version of check types library",
   "main": "lib/index.js",
   "repository": {

@@ -1,10 +1,14 @@
 # check-types-v2
 
+[![npm version](https://badge.fury.io/js/check-types-v2.svg)](https://badge.fury.io/js/check-types-v2) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/alexdant91/check-types-v2/blob/master/LICENSE) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/alexdant91/check-types-v2/graphs/commit-activity)
+
 New version of check types library. Check on [npm](https://www.npmjs.com/package/check-types-v2) and [github](https://github.com/alexdant91/check-types-v2#readme).
 
-# Supporting the project
-
 ## 🎉 Version 2.0.x is live 🎉
+
+Fixed a lot of errors from the first release.
+
+# Supporting the project
 
 Maintaining a project takes time. To help allocate time, you can Buy Me a Coffee 😉
 
