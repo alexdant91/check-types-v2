@@ -21,6 +21,7 @@
  */
 
 import Types from './Types';
+import CheckError from './CheckError';
 
 export default class SetTypes {
   constructor() {
@@ -93,33 +94,33 @@ export default class SetTypes {
         if (Array.isArray(check.type)) {
           // Array of value types
           if (check.type.indexOf("any") === -1) {
-            // if (check.required && !check.default && value != "" && value != null && value != undefined) this.ierrors.push({ [key]: 'required_from_array' });
+            // if (check.required && !check.default && value != "" && value != null && value != undefined) this.ierrors.push({ key, type: 'required_from_array' });
             if (check.required && check.default != undefined && (value == "" || value == null || value == undefined)) checkedValue[key] = check.default;
-            else if (check.required && check.default == undefined && (value == "" || value == null || value == undefined)) this.ierrors.push({ [key]: 'required', message: 'Field is required.' });
-            if (check.type.indexOf("array") !== -1 && !isArray) this.ierrors.push({ [key]: 'not_array' });
+            else if (check.required && check.default == undefined && (value == "" || value == null || value == undefined)) this.ierrors.push(new CheckError(key, 'required'));
+            if (check.type.indexOf("array") !== -1 && !isArray) this.ierrors.push({ key, type: 'not_array' });
 
-            if (check.type.indexOf("array") === -1 && check.type.indexOf("int") !== -1 && check.type.indexOf("float") !== -1 && check.type.indexOf(typeof value) === -1) this.ierrors.push({ [key]: 'type_error', message: 'Data type check error.' });
+            if (check.type.indexOf("array") === -1 && check.type.indexOf("int") !== -1 && check.type.indexOf("float") !== -1 && check.type.indexOf(typeof value) === -1) this.ierrors.push(new CheckError(key, 'type_error'));
 
             // ***************
-            if (check.type.indexOf("array") === -1 && check.type.indexOf("int") !== -1 && !this.checkIsInteger(value)) this.ierrors.push({ [key]: 'type_error', message: 'Data type check error.' });
-            if (check.type.indexOf("array") === -1 && check.type.indexOf("float") !== -1 && !this.checkIsFloat(value)) this.ierrors.push({ [key]: 'type_error', message: 'Data type check error.' });
+            if (check.type.indexOf("array") === -1 && check.type.indexOf("int") !== -1 && !this.checkIsInteger(value)) this.ierrors.push(new CheckError(key, 'type_error'));
+            if (check.type.indexOf("array") === -1 && check.type.indexOf("float") !== -1 && !this.checkIsFloat(value)) this.ierrors.push(new CheckError(key, 'type_error'));
             // ***************
 
             if (check.of && isArray) {
               const checkArrayOf = this.checkArrayOf(value, { extended: true, arrayOfType: ['array_of', check.of] });
-              if (checkArrayOf.errors) this.ierrors.push({ [key]: 'type_error', message: checkArrayOf.errors });
+              if (checkArrayOf.errors) this.ierrors.push({ key, type: 'type_error', message: checkArrayOf.errors });
             }
             if (check.match) {
               // All array item must respect regexp pattern
-              value.forEach(val => { if (!String(val).match(check.match)) this.ierrors.push({ [key]: 'not_match', message: `Must match ${check.match.toString()} pattern.` }); });
+              value.forEach(val => { if (!String(val).match(check.match)) this.ierrors.push(new CheckError(key, 'not_match', check.match.toString())); });
             }
             if (check.enum && Array.isArray(check.enum)) {
               if (isArray) {
                 value.forEach(val => {
-                  if (check.enum.indexOf(val) === -1) this.ierrors.push({ [key]: 'not_enum', message: `Value must be one of ["${check.enum.join('", "')}"].` });
+                  if (check.enum.indexOf(val) === -1) this.ierrors.push(new CheckError(key, 'not_enum', check.enum));
                 });
               } else {
-                if (check.enum.indexOf(value) === -1) this.ierrors.push({ [key]: 'not_enum', message: `Value must be one of ["${check.enum.join('", "')}"].` });
+                if (check.enum.indexOf(value) === -1) this.ierrors.push(new CheckError(key, 'not_enum', check.enum));
               }
             } else if (check.enum && !Array.isArray(check.enum)) {
               throw new Error("TypeError: enum must be an array of values.");
@@ -133,35 +134,35 @@ export default class SetTypes {
           // Not array of value types
           if (check.type !== "any") {
             if (check.required && check.default != undefined && (value == "" || value == null || value == undefined)) checkedValue[key] = check.default;
-            else if (check.required && check.default == undefined && (value == "" || value == null || value == undefined)) this.ierrors.push({ [key]: 'required' });
-            if (check.type === "array" && !isArray) this.ierrors.push({ [key]: 'not_array' });
-            if (check.type !== "array" && check.type !== "int" && check.type !== "float" && typeof value !== check.type) this.ierrors.push({ [key]: 'type_error' });
+            else if (check.required && check.default == undefined && (value == "" || value == null || value == undefined)) this.ierrors.push({ key, type: 'required', message: 'Field is required.' });
+            if (check.type === "array" && !isArray) this.ierrors.push({ key, type: 'not_array', message: 'Field must be a valid Array.' });
+            if (check.type !== "array" && check.type !== "int" && check.type !== "float" && typeof value !== check.type) this.ierrors.push(new CheckError(key, 'type_error'));
 
             // ***************
-            if (check.type !== "array" && check.type == "int" && !this.checkIsInteger(value)) this.ierrors.push({ [key]: 'type_error' });
-            if (check.type !== "array" && check.type == "float" && !this.checkIsFloat(value)) this.ierrors.push({ [key]: 'type_error' });
+            if (check.type !== "array" && check.type == "int" && !this.checkIsInteger(value)) this.ierrors.push(new CheckError(key, 'type_error'));
+            if (check.type !== "array" && check.type == "float" && !this.checkIsFloat(value)) this.ierrors.push(new CheckError(key, 'type_error'));
             // ***************
 
             if (check.of) {
               const checkArrayOf = this.checkArrayOf(value, { extended: true, arrayOfType: ['array_of', check.of] });
               // ***************
-              if (check.type !== "array" && check.type == "int" && !this.checkIsInteger(value)) this.ierrors.push({ [key]: 'type_error' });
-              if (check.type !== "array" && check.type == "float" && !this.checkIsFloat(value)) this.ierrors.push({ [key]: 'type_error' });
+              if (check.type !== "array" && check.type == "int" && !this.checkIsInteger(value)) this.ierrors.push(new CheckError(key, 'type_error'));
+              if (check.type !== "array" && check.type == "float" && !this.checkIsFloat(value)) this.ierrors.push(new CheckError(key, 'type_error'));
               // ***************
-              if (checkArrayOf.errors) this.ierrors.push({ [key]: 'type_error', message: checkArrayOf.errors });
+              if (checkArrayOf.errors) this.ierrors.push({ key, type: 'type_error', message: checkArrayOf.errors });
             }
             if (check.enum && Array.isArray(check.enum)) {
               if (isArray) {
                 value.forEach(val => {
-                  if (check.enum.indexOf(val) === -1) this.ierrors.push({ [key]: 'not_enum', message: `Value must be one of ["${check.enum.join('", "')}"].` });
+                  if (check.enum.indexOf(val) === -1) this.ierrors.push(new CheckError(key, 'not_enum', check.enum));
                 });
               } else {
-                if (check.enum.indexOf(value) === -1) this.ierrors.push({ [key]: 'not_enum', message: `Value must be one of ["${check.enum.join('", "')}"].` });
+                if (check.enum.indexOf(value) === -1) this.ierrors.push(new CheckError(key, 'not_enum', check.enum));
               }
             } else if (check.enum && !Array.isArray(check.enum)) {
               throw new Error("TypeError: enum must be an array of values.");
             }
-            if (check.match && !String(value).match(check.match)) this.ierrors.push({ [key]: 'not_match', message: `Must match ${check.match.toString()} pattern.` });
+            if (check.match && !String(value).match(check.match)) this.ierrors.push(new CheckError(key, 'not_match', check.match.toString()));
             if (check.default && (value == "" || value == null || value == undefined)) checkedValue[key] = check.default;
             else checkedValue[key] = value;
           } else {
@@ -176,7 +177,7 @@ export default class SetTypes {
     Object.keys(schema.schema).forEach(key => {
       const check = schema.schema[key];
       const insertedValue = checkedValue[key];
-      if (!insertedValue && check.required && !check.default) this.ierrors.push({ [key]: 'required', message: 'Field is required.' });
+      if (!insertedValue && check.required && !check.default) this.ierrors.push({ key, type: 'required', message: 'Field is required.' });
       if (!insertedValue && check.default) checkedValue[key] = check.default;
     });
     if (this.ierrors.length !== 0 && options.extended) return { errors: this.ierrors, value: topValue };

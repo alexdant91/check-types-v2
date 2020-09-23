@@ -4,7 +4,7 @@
 
 New version of check types library. Check on [npm](https://www.npmjs.com/package/check-types-v2) and [github](https://github.com/alexdant91/check-types-v2#readme).
 
-## 🎉 Version 2.1.x is live 🎉
+## 🎉 Version 2.2.x is live 🎉
 
 Check out for changes in the CHANGELOG:
 
@@ -106,6 +106,10 @@ console.log(value3);
 
 ```
 
+## Examples
+
+Check the examples directory. New examples will added soon.
+
 ## To do
 
 This project is under active maintenance. New features soon.
@@ -113,6 +117,7 @@ This project is under active maintenance. New features soon.
 ### To fix
 
 * [X] Fix errors handler, it takes the same error multiple times
+* [X] Fix `setValue`, it may cause issue on `schema` processing
 
 ### Improved
 
@@ -121,8 +126,8 @@ This project is under active maintenance. New features soon.
 ### Coming Soon Features
 
 * [ ] Integrate `Class` validation type
-* [ ] Integrate separate class for better error handling
-* [ ] Create middleware helpers compatible with express.js framework
+* [X] Integrate separate class for better error handling
+* [X] Create middleware helpers compatible with express.js framework
 
 ### Generic Task
 

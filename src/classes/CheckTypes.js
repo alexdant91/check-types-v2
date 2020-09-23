@@ -26,6 +26,7 @@ import SetTypes from './SetTypes';
 export default class CheckTypes extends SetTypes {
   constructor(value) {
     super();
+    this.#init();
     this.value = value || null;
     this.schema = false;
     this.errors = [];
@@ -40,7 +41,6 @@ export default class CheckTypes extends SetTypes {
   }
 
   setValue = (value) => {
-    this.#init();
     this.value = value;
     return this;
   }
@@ -49,6 +49,40 @@ export default class CheckTypes extends SetTypes {
     if (!(schema instanceof Schema)) throw new Error("Schema must be a valid instance of Schema class.");
     this.schema = schema;
     return this;
+  }
+
+  // Middleware Express.js
+  middleware = (schema, options = { strict: Boolean, blockIfErrorOccur: Boolean, includeParamsValue: Boolean }) => (req, res, next) => {
+    // Set empty rules default options
+    const defaults = { strict: true, blockIfErrorOccur: false, includeParamsValue: false };
+    Object.keys(defaults).forEach(key => {
+      if (options[key] === undefined) options[key] = defaults[key];
+    });
+    // Schema type check
+    if (!(schema instanceof Schema) || schema == null) throw new Error("Schema must be a valid instance of Schema class.");
+    // Options type checK
+    if (typeof options.strict !== "boolean") throw new Error("Option `strict` must be boolean");
+    if (typeof options.blockIfErrorOccur !== "boolean") throw new Error("Option `blockIfErrorOccur` must be boolean");
+    if (typeof options.includeParamsValue !== "boolean") throw new Error("Option `includeParamsValue` must be boolean");
+    // Get value based on method type, params included
+    const method = req.method;
+    let value = method !== "GET" ? { ...req.body } : { ...req.query };
+    if (options.includeParamsValue) value = { ...value, ...req.params };
+    //
+    const check = new CheckTypes().setValue(value).setSchema(schema).check({ strict: options.strict, extended: true });
+
+    if (check.errors.length === 0) {
+      req.check = { isValid: true, errors: [] };
+      req.body = { ...check.value };
+      return next();
+    } else {
+      if (options.blockIfErrorOccur) throw new Error("Errors on middleware validation process.");
+      else {
+        req.check = { isValid: false, errors: check.errors };
+        req.body = { ...check.value };
+        return next();
+      }
+    }
   }
 
   check = (options = { strict: true, extended: false }) => {
