@@ -73,6 +73,16 @@ export default class SetTypes {
     }
   }
 
+  checkIsInteger = (value) => {
+    if (typeof value !== "number") return false;
+    return value % 1 === 0;
+  }
+
+  checkIsFloat = (value) => {
+    if (typeof value !== "number") return false;
+    return value === value && value % 1 !== 0;
+  }
+
   checkSchema = (topValue, schema, specifiedFields, checkedValue, options) => {
     // Check value inserted
     Object.keys(topValue).forEach(key => {
@@ -87,7 +97,14 @@ export default class SetTypes {
             if (check.required && check.default != undefined && (value == "" || value == null || value == undefined)) checkedValue[key] = check.default;
             else if (check.required && check.default == undefined && (value == "" || value == null || value == undefined)) this.ierrors.push({ [key]: 'required', message: 'Field is required.' });
             if (check.type.indexOf("array") !== -1 && !isArray) this.ierrors.push({ [key]: 'not_array' });
-            if (check.type.indexOf("array") === -1 && check.type.indexOf(typeof value) === -1) this.ierrors.push({ [key]: 'type_error', message: 'Data type check error.' });
+
+            if (check.type.indexOf("array") === -1 && check.type.indexOf("int") !== -1 && check.type.indexOf("float") !== -1 && check.type.indexOf(typeof value) === -1) this.ierrors.push({ [key]: 'type_error', message: 'Data type check error.' });
+
+            // ***************
+            if (check.type.indexOf("array") === -1 && check.type.indexOf("int") !== -1 && !this.checkIsInteger(value)) this.ierrors.push({ [key]: 'type_error', message: 'Data type check error.' });
+            if (check.type.indexOf("array") === -1 && check.type.indexOf("float") !== -1 && !this.checkIsFloat(value)) this.ierrors.push({ [key]: 'type_error', message: 'Data type check error.' });
+            // ***************
+
             if (check.of && isArray) {
               const checkArrayOf = this.checkArrayOf(value, { extended: true, arrayOfType: ['array_of', check.of] });
               if (checkArrayOf.errors) this.ierrors.push({ [key]: 'type_error', message: checkArrayOf.errors });
@@ -118,9 +135,19 @@ export default class SetTypes {
             if (check.required && check.default != undefined && (value == "" || value == null || value == undefined)) checkedValue[key] = check.default;
             else if (check.required && check.default == undefined && (value == "" || value == null || value == undefined)) this.ierrors.push({ [key]: 'required' });
             if (check.type === "array" && !isArray) this.ierrors.push({ [key]: 'not_array' });
-            if (check.type !== "array" && typeof value !== check.type) this.ierrors.push({ [key]: 'type_error' });
+            if (check.type !== "array" && check.type !== "int" && check.type !== "float" && typeof value !== check.type) this.ierrors.push({ [key]: 'type_error' });
+
+            // ***************
+            if (check.type !== "array" && check.type == "int" && !this.checkIsInteger(value)) this.ierrors.push({ [key]: 'type_error' });
+            if (check.type !== "array" && check.type == "float" && !this.checkIsFloat(value)) this.ierrors.push({ [key]: 'type_error' });
+            // ***************
+
             if (check.of) {
               const checkArrayOf = this.checkArrayOf(value, { extended: true, arrayOfType: ['array_of', check.of] });
+              // ***************
+              if (check.type !== "array" && check.type == "int" && !this.checkIsInteger(value)) this.ierrors.push({ [key]: 'type_error' });
+              if (check.type !== "array" && check.type == "float" && !this.checkIsFloat(value)) this.ierrors.push({ [key]: 'type_error' });
+              // ***************
               if (checkArrayOf.errors) this.ierrors.push({ [key]: 'type_error', message: checkArrayOf.errors });
             }
             if (check.enum && Array.isArray(check.enum)) {
@@ -220,6 +247,21 @@ export default class SetTypes {
 
   Number = () => {
     SetTypes.prototype.types = [...SetTypes.prototype.types, 'number'];
+    return this;
+  }
+
+  BigInt = () => {
+    SetTypes.prototype.types = [...SetTypes.prototype.types, 'bigint'];
+    return this;
+  }
+
+  Int = () => {
+    SetTypes.prototype.types = [...SetTypes.prototype.types, 'int'];
+    return this;
+  }
+
+  Float = () => {
+    SetTypes.prototype.types = [...SetTypes.prototype.types, 'float'];
     return this;
   }
 

@@ -30,6 +30,9 @@ export default class Types {
     Types.prototype.Boolean = 'boolean';
     Types.prototype.Function = 'function';
     Types.prototype.Number = 'number';
+    Types.prototype.BigInt = 'number';
+    Types.prototype.Int = 'int';
+    Types.prototype.Float = 'float';
     Types.prototype.Symbol = 'symbol';
   }
 }

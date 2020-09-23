@@ -4,9 +4,11 @@
 
 New version of check types library. Check on [npm](https://www.npmjs.com/package/check-types-v2) and [github](https://github.com/alexdant91/check-types-v2#readme).
 
-## 🎉 Version 2.0.x is live 🎉
+## 🎉 Version 2.1.x is live 🎉
 
-Fixed a lot of errors from the first release.
+Check out for changes in the CHANGELOG:
+
+[Changelog](https://github.com/alexdant91/check-types-v2/blob/master/CHANGELOG.md)
 
 ## Supporting the project
 
@@ -60,6 +62,11 @@ const customSchema = new Schema({
     required: true,
     default: [],
     match: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ig
+  },
+  floatNumber: {
+    type: Float,
+    required: true,
+    default: 1.5
   }
 });
 
@@ -74,7 +81,8 @@ const obj = {
   username: 'test1',
   emails: ["alexdant91@gmail.com"],
   roles: ['ADMIN'],
-  role: 'USER'
+  role: 'USER',
+  floatNumber: 5.3
 };
 // Use schema to validate
 const value3 = CheckType.setValue(obj).setSchema(customSchema).check({ strict: false, extended: true });
@@ -91,7 +99,8 @@ console.log(value3);
  *   username: 'test1',
  *   emails: [ 'alexdant91@gmail.com' ],
  *   roles: [ 'ADMIN' ],
- *   role: 'USER'
+ *   role: 'USER',
+ *   floatNumber: 5.3
  * }
  */
 
@@ -101,12 +110,21 @@ console.log(value3);
 
 This project is under active maintenance. New features soon.
 
-### To fix and improvements
+### To fix
 
-* [ ] Fix errors handler, it takes the same error multiple times
-* [ ] Integrate `Float` and `Int` validation type
+* [X] Fix errors handler, it takes the same error multiple times
 
-### Generic
+### Improved
+
+* [X] Integrate `Float` and `Int` validation type
+
+### Coming Soon Features
+
+* [ ] Integrate `Class` validation type
+* [ ] Integrate separate class for better error handling
+* [ ] Create middleware helpers compatible with express.js framework
+
+### Generic Task
 
 * [ ] Write complete documentation
-* [ ] Write example for each function
+* [ ] Write examples for each function

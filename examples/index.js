@@ -1,6 +1,6 @@
 const { Types, CheckTypes, Schema } = require('../lib');
 
-const { String, Array, Number, Boolean } = new Types();
+const { String, Array, Number, Boolean, Float } = new Types();
 const CheckType = new CheckTypes();
 
 const customSchema = new Schema({
@@ -29,6 +29,11 @@ const customSchema = new Schema({
     required: true,
     default: [],
     match: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ig
+  },
+  floatNumber: {
+    type: Float,
+    required: true,
+    default: 1.5
   }
 });
 
@@ -40,7 +45,8 @@ const obj = {
   username: 'test1',
   emails: ["alexdant91@gmail.com"],
   roles: ['ADMIN'],
-  role: 'USER'
+  role: 'USER',
+  floatNumber: 5.3
 };
 const value3 = CheckType.setValue(obj).setSchema(customSchema).check({ strict: false, extended: true });
 

@@ -1,6 +1,6 @@
 {
   "name": "check-types-v2",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "description": "New version of check types library",
   "main": "lib/index.js",
   "repository": {
@@ -17,6 +17,7 @@
     "type",
     "validate",
     "validation",
+    "validator",
     "node",
     "express",
     "schema"
