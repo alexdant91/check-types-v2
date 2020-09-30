@@ -31,7 +31,7 @@ Following a generic example, full documentation is under construction.
 ```js
 const { Types, CheckTypes, Schema } = require('check-types-v2');
 // Get data types helpers
-const { String, Array, Number, Boolean } = new Types();
+const { String, Array, Number, Boolean, Float } = new Types();
 // Call a new instance of CheckTypes only once.
 const CheckType = new CheckTypes();
 
