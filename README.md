@@ -121,11 +121,12 @@ This project is under active maintenance. New features soon.
 
 ### Improved
 
-* [X] Integrate `Float` and `Int` validation type
+* [X] Integrate `<Float>` and `<Int>` validation type
 
 ### Coming Soon Features
 
-* [ ] Integrate `Class` validation type
+* [ ] Integrate `<Class>` validation type
+* [ ] Integrate `<Array>: { of: <Schema> }` validation type
 * [X] Integrate separate class for better error handling
 * [X] Create middleware helpers compatible with express.js framework
 
